@@ -13,7 +13,7 @@ from config import config
 
 # 配置页面
 st.set_page_config(
-    page_title="史莱姆美食评论家 ChatBot",
+    page_title="llm+rag+qdrant+streamlit ChatBot Demo",
     page_icon="🍽️",
     layout="wide",
     initial_sidebar_state="expanded"

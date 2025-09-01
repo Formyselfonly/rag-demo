@@ -76,7 +76,7 @@ def query_db(question: str) -> list[str]:
 
 
 def main():
-    question = "李小明变成了什么?"
+    question = "KerryZheng变成了什么?"
     
     # 检查collection是否存在，如果不存在则创建
     try:
