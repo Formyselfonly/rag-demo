@@ -19,7 +19,7 @@ qdrant_client = QdrantClient(path="./qdrant_db")
 import atexit
 atexit.register(lambda: qdrant_client.close() if qdrant_client else None)
 
-def embed(text: str, store: bool) -> list[float]:
+def embed(text: str) -> list[float]:
     result = client.embeddings.create(
         model=EMBEDDING_MODEL,
         input=text
@@ -33,7 +33,7 @@ def create_db() -> None:
     # 创建collection（如果不存在）
     try:
         # 先获取一个embedding来确定向量维度
-        sample_embedding = embed(chunks[0], store=True)
+        sample_embedding = embed(chunks[0])
         vector_size = len(sample_embedding)
         
         qdrant_client.create_collection(
@@ -48,7 +48,7 @@ def create_db() -> None:
     points = []
     for idx, c in enumerate(chunks):
         print(f"Process: {c}")
-        embedding = embed(c, store=True)
+        embedding = embed(c)
         points.append(PointStruct(
             id=idx,
             vector=embedding,
@@ -61,7 +61,7 @@ def create_db() -> None:
     )
 
 def query_db(question: str) -> list[str]:
-    question_embedding = embed(question, store=False)
+    question_embedding = embed(question)
     result = qdrant_client.query_points(
         collection_name=collection_name,
         query=question_embedding,
