@@ -103,7 +103,7 @@ def get_chunks() -> list[str]:
 
 ### 第三步：向量嵌入 (`embed.py`)
 ```python
-def embed(text: str, store: bool) -> list[float]:
+def embed(text: str) -> list[float]:
     result = client.embeddings.create(
         model=EMBEDDING_MODEL,
         input=text
@@ -127,7 +127,7 @@ def create_db() -> None:
     # 存储向量
     points = []
     for idx, c in enumerate(chunks):
-        embedding = embed(c, store=True)
+        embedding = embed(c)
         points.append(PointStruct(
             id=idx,
             vector=embedding,
@@ -140,7 +140,7 @@ def create_db() -> None:
 ### 第五步：相似性检索
 ```python
 def query_db(question: str) -> list[str]:
-    question_embedding = embed(question, store=False)
+    question_embedding = embed(question)
     result = qdrant_client.query_points(
         collection_name=collection_name,
         query=question_embedding,
